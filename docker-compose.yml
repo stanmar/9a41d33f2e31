@@ -1,0 +1,77 @@
+version: '3.9'
+
+services:
+  init:
+    build: ./docker
+    volumes:
+      - .:/var/www/html
+      - /tmp/shm:/tmp/shm
+    ipc: host
+    environment:
+      XDEBUG_SESSION: PHPSTORM
+      SHARED_MEMORY_BLOCK: 10737418240 # 10gb in bytes
+    entrypoint: php init.php
+
+  put_n_randoms:
+    build: ./docker
+    volumes:
+      - .:/var/www/html
+      - /tmp/shm:/tmp/shm
+    profiles:
+      - cli
+    ipc: host
+    environment:
+      XDEBUG_SESSION: PHPSTORM
+      COUNT_ENTRIES: 100
+    command: php put_n_randoms.php
+
+  get_n_first:
+    build: ./docker
+    volumes:
+      - .:/var/www/html
+      - /tmp/shm:/tmp/shm
+    profiles:
+      - cli
+    ipc: host
+    environment:
+      XDEBUG_SESSION: PHPSTORM
+      COUNT_KEYS: 100
+    command: php get_n_first.php
+
+  get:
+    build: ./docker
+    volumes:
+      - .:/var/www/html
+      - /tmp/shm:/tmp/shm
+    profiles:
+      - cli
+    ipc: host
+    environment:
+      XDEBUG_SESSION: PHPSTORM
+      COUNT_KEYS: 100
+    entrypoint: php get.php
+
+  put:
+    build: ./docker
+    volumes:
+      - .:/var/www/html
+      - /tmp/shm:/tmp/shm
+    profiles:
+      - cli
+    ipc: host
+    environment:
+      XDEBUG_SESSION: PHPSTORM
+      COUNT_KEYS: 100
+    entrypoint: php put.php
+
+  php:
+    build: ./docker
+    volumes:
+      - .:/var/www/html
+      - /tmp/shm:/tmp/shm
+    profiles:
+      - cli
+    ipc: host
+    environment:
+      XDEBUG_SESSION: PHPSTORM
+    entrypoint: php
